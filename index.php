@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STFA Öğrenci Takip Sistemi</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .filter-section {
+            background-color: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .filter-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 5px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .students-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .student-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .student-items {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .item-name {
+            font-weight: 500;
+        }
+
+        .item-count {
+            display: flex;
+            gap: 5px;
+        }
+
+        .plus-count {
+            color: var(--success-color);
+        }
+
+        .minus-count {
+            color: var(--danger-color);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .students-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>11/B Takip Sistemi</h1>
+        </header>
+
+        <div class="filter-section">
+            <h2>Öğrenci Filtrele</h2>
+            <input type="text" id="search" class="search-box" placeholder="Öğrenci adı ara...">
+        </div>
+
+        <div class="students-container" id="students-container">
+ 
+        </div>
+    </div>
+
+    <script>
+
+        const students = [
+            { id: 36215, name: "AHMET SEVİM", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36238, name: "MURAT CAN ZOR", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36247, name: "EREN KARADAĞ", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36251, name: "BEREN IRMAK ÇİÇEK", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36259, name: "BARAN KAZAN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36265, name: "BERK CAN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36274, name: "EREN ÇOBAN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36282, name: "MEHMET AKİF OKÇUOĞLU", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36284, name: "KAYRA TAŞDELEN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36312, name: "MİKAL DOĞAN ŞAHAN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36313, name: "AYŞE ŞAHİN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36325, name: "TARIK EMİROĞLU", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36331, name: "ALPEREN SAMET KILIÇ", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36337, name: "CEYDA BURÇIN AYTAR", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36332, name: "FEVZİ DEMİRKAYNAK", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36354, name: "BERAT TETİK", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 36359, name: "ÇAĞAN TOZLU", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 37254, name: "ESER KASAR", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } },
+
+            { id: 37819, name: "SAFİYE KARADUMAN", items: { defter: {plus: 0, minus: 0}, kitap: {plus: 0, minus: 0}, ödev: {plus: 0, minus: 0} } }
+        ];
+
+  
+        const studentsContainer = document.getElementById('students-container');
+        const searchInput = document.getElementById('search');
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderStudents(students);
+        });
+
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredStudents = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm)
+            );
+            renderStudents(filteredStudents);
+        });
+
+        function renderStudents(studentsToRender) {
+            studentsContainer.innerHTML = '';
+
+            if (studentsToRender.length === 0) {
+                studentsContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>Öğrenci bulunamadı</h3>
+                        <p>Aradığınız kritere uygun öğrenci bulunamadı.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            studentsToRender.forEach(student => {
+                const studentCard = document.createElement('div');
+                studentCard.className = 'student-card';
+
+                studentCard.innerHTML = `
+                    <div class="student-name">${student.name}</div>
+                    <div class="student-items">
+                        ${renderStudentItems(student)}
+                    </div>
+                `;
+
+                studentsContainer.appendChild(studentCard);
+            });
+        }
+
+
+        function renderStudentItems(student) {
+            let itemsHTML = '';
+            
+            for (const [itemName, counts] of Object.entries(student.items)) {
+                itemsHTML += `
+                    <div class="item-row">
+                        <div class="item-name">${capitalizeFirstLetter(itemName)}</div>
+                        <div class="item-count">
+                            <span class="plus-count">${counts.plus}+</span>
+                            <span class="minus-count">${counts.minus}-</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return itemsHTML;
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        window.students = students;
+    </script>
+</body>
+</html>
