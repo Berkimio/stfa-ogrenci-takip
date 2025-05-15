@@ -153,6 +153,69 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .contact-section {
+    background-color: white;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.contact-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(22, 96, 136, 0.2);
+    outline: none;
+}
+
+.contact-form button {
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.contact-form button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.02);
+}
+
+@media (max-width: 600px) {
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -171,6 +234,16 @@
         </div>
     </div>
 
+      <section class="contact-section">
+        <h2>Soru için</h2>
+        <form class="contact-form" id="contactForm">
+            <input type="text" id="name" placeholder="Adınız" required>
+            <input type="email" id="email" placeholder="E-posta" required>
+            <textarea id="message" placeholder="Mesajınız" rows="5" required></textarea>
+            <button type="submit">Gönder</button>
+        </form>
+    </section>
+        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>  
     <script>
 
         const students = [
@@ -283,6 +356,48 @@
         }
 
         window.students = students;
+
+         (function() {
+            emailjs.init("YoC-OJisQeBBR8zRE");
+
+            document.getElementById('contactForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let name = document.getElementById("name").value.trim();
+                let email = document.getElementById("email").value.trim();
+                let message = document.getElementById("message").value.trim();
+
+                if (name === "" || email === "" || message === "") {
+                    alert("Lütfen tüm alanları doldurun! ❌");
+                    return;
+                }
+
+                emailjs.send("service_281j401", "template_k4cu3gv", {
+                    from_name: name,
+                    from_email: email,
+                    message: message
+                }).then(function(response) {
+                    alert("Mesajınız başarıyla gönderildi! ✔️");
+                }).catch(function(error) {
+                    alert("Mesaj gönderilemedi, lütfen tekrar deneyin. ❌");
+                });
+            });
+
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+        })();
+
+        document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    alert("Mesajınız gönderildi! (Demo)");
+    this.reset(); // Formu temizler
+});
+
     </script>
+  
 </body>
 </html>
