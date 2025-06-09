@@ -12,8 +12,11 @@
             --dark-color: #343a40;
             --success-color: #28a745;
             --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
             --border-radius: 8px;
             --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -40,22 +43,42 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background-color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
         }
 
         h1 {
-            color: var(--secondary-color);
+            color: white;
             margin-bottom: 10px;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .filter-section {
             background-color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
             margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .filter-section:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .filter-section h2 {
@@ -64,26 +87,30 @@
             color: var(--primary-color);
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 5px;
+            display: inline-block;
         }
 
         .search-box {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
             border-radius: var(--border-radius);
             font-size: 16px;
-            transition: border 0.3s;
+            transition: var(--transition);
+            background-color: #f8f9fa;
         }
 
         .search-box:focus {
             outline: none;
             border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(22, 96, 136, 0.2);
+            background-color: white;
         }
 
         .students-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
 
@@ -91,132 +118,269 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid var(--primary-color);
         }
 
         .student-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .student-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
         }
 
         .student-name {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--secondary-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        .student-name::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
         }
 
         .student-items {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 12px;
         }
 
         .item-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
         }
 
         .item-name {
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .item-name i {
+            color: var(--primary-color);
+            font-size: 1.1em;
         }
 
         .item-count {
             display: flex;
-            gap: 5px;
+            gap: 10px;
+        }
+
+        .count-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            min-width: 40px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .plus-count {
+            background-color: rgba(40, 167, 69, 0.1);
             color: var(--success-color);
+            border: 1px solid rgba(40, 167, 69, 0.3);
         }
 
         .minus-count {
+            background-color: rgba(220, 53, 69, 0.1);
             color: var(--danger-color);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .behavior-count {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(255, 193, 7, 0.3);
         }
 
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 40px;
+            padding: 50px;
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+        }
+
+        .no-results h3 {
+            color: var(--danger-color);
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: var(--dark-color);
+            opacity: 0.8;
         }
 
         @media (max-width: 768px) {
             .students-container {
                 grid-template-columns: 1fr;
             }
+            
+            .student-card {
+                padding: 20px;
+            }
         }
 
         .contact-section {
-    background-color: white;
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-}
+            background-color: white;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
 
-.contact-section h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-    text-align: center;
-}
+        .contact-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
 
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+        .contact-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-.contact-form input,
-.contact-form textarea {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
+        .contact-section h2::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--secondary-color);
+        }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: var(--secondary-color);
-    box-shadow: 0 0 0 2px rgba(22, 96, 136, 0.2);
-    outline: none;
-}
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-.contact-form button {
-    padding: 12px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
+        .contact-form input,
+        .contact-form textarea {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+        }
 
-.contact-form button:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.02);
-}
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(22, 96, 136, 0.2);
+            outline: none;
+            background-color: white;
+        }
 
-@media (max-width: 600px) {
-    .contact-form input,
-    .contact-form textarea,
-    .contact-form button {
-        font-size: 14px;
-        padding: 10px;
-    }
-}
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
 
+        .contact-form button {
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(22, 96, 136, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .contact-form input,
+            .contact-form textarea,
+            .contact-form button {
+                font-size: 14px;
+                padding: 12px;
+            }
+            
+            .contact-section {
+                padding: 20px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .student-card {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .student-card:nth-child(1) { animation-delay: 0.1s; }
+        .student-card:nth-child(2) { animation-delay: 0.2s; }
+        .student-card:nth-child(3) { animation-delay: 0.3s; }
+        .student-card:nth-child(4) { animation-delay: 0.4s; }
+        .student-card:nth-child(5) { animation-delay: 0.5s; }
+        .student-card:nth-child(6) { animation-delay: 0.6s; }
+        .student-card:nth-child(7) { animation-delay: 0.7s; }
+        .student-card:nth-child(8) { animation-delay: 0.8s; }
+        .student-card:nth-child(9) { animation-delay: 0.9s; }
+        .student-card:nth-child(10) { animation-delay: 1s; }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -230,11 +394,11 @@
         </div>
 
         <div class="students-container" id="students-container">
- 
+            <!-- Öğrenci kartları buraya eklenecek -->
         </div>
     </div>
 
-      <section class="contact-section">
+    <section class="contact-section">
         <h2>Soru için</h2>
         <form class="contact-form" id="contactForm">
             <input type="text" id="name" placeholder="Adınız" required>
@@ -243,58 +407,37 @@
             <button type="submit">Gönder</button>
         </form>
     </section>
-        <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>  
+    
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>  
     <script>
-
         const students = [
-            { id: 36215, name: "AHMET SEVİM", items: { defter: {plus: 9, minus: 1}, kitap: {plus: 9, minus: 1}, ödev: {plus: 1, minus: 1} } },
-
-            { id: 36238, name: "MURAT CAN ZOR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 1, minus: 1} } },
-
-            { id: 36247, name: "EREN KARADAĞ", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36251, name: "BEREN IRMAK ÇİÇEK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36259, name: "BARAN KAZAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36265, name: "BERK CAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36274, name: "EREN ÇOBAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 8, minus: 2}, ödev: {plus: 0, minus: 2} } },
-
-            { id: 36282, name: "MEHMET AKİF OKÇUOĞLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36284, name: "KAYRA TAŞDELEN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 1, minus: 1} } },
-
-            { id: 36312, name: "MİKAL DOĞAN ŞAHAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36313, name: "AYŞE ŞAHİN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36325, name: "TARIK EMİROĞLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 1, minus: 1} } },
-
-            { id: 36331, name: "ALPEREN SAMET KILIÇ", items: { defter: {plus: 8, minus: 2}, kitap: {plus: 8, minus: 2}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36337, name: "CEYDA BURÇIN AYTAR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36332, name: "FEVZİ DEMİRKAYNAK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36354, name: "BERAT TETİK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 36359, name: "ÇAĞAN TOZLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 37254, name: "ESER KASAR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0} } },
-
-            { id: 37819, name: "SAFİYE KARADUMAN", items: { defter: {plus: 9, minus: 1}, kitap: {plus: 8, minus: 2}, ödev: {plus: 2, minus: 0} } }
+            { id: 36215, name: "AHMET SEVİM", items: { defter: {plus: 9, minus: 1}, kitap: {plus: 9, minus: 1}, ödev: {plus: 1, minus: 1}, davranış: {minus: 2} } },
+            { id: 36238, name: "MURAT CAN ZOR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 1, minus: 1}, davranış: { minus: 1} } },
+            { id: 36247, name: "EREN KARADAĞ", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36251, name: "BEREN IRMAK ÇİÇEK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 2, minus: 0}, davranış: { minus: 1} } },
+            { id: 36259, name: "BARAN KAZAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36265, name: "BERK CAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36274, name: "EREN ÇOBAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 8, minus: 2}, ödev: {plus: 0, minus: 2}, davranış: { minus: 3} } },
+            { id: 36282, name: "MEHMET AKİF OKÇUOĞLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36284, name: "KAYRA TAŞDELEN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 1, minus: 1}, davranış: { minus: 1} } },
+            { id: 36312, name: "MİKAL DOĞAN ŞAHAN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36313, name: "AYŞE ŞAHİN", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36325, name: "TARIK EMİROĞLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 1, minus: 1}, davranış: { minus: 2} } },
+            { id: 36331, name: "ALPEREN SAMET KILIÇ", items: { defter: {plus: 8, minus: 2}, kitap: {plus: 8, minus: 2}, ödev: {plus: 2, minus: 0}, davranış: { minus: 3} } },
+            { id: 36337, name: "CEYDA BURÇIN AYTAR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 9, minus: 1}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36332, name: "FEVZİ DEMİRKAYNAK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 36354, name: "BERAT TETİK", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 1} } },
+            { id: 36359, name: "ÇAĞAN TOZLU", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 37254, name: "ESER KASAR", items: { defter: {plus: 10, minus: 0}, kitap: {plus: 10, minus: 0}, ödev: {plus: 2, minus: 0}, davranış: { minus: 0} } },
+            { id: 37819, name: "SAFİYE KARADUMAN", items: { defter: {plus: 9, minus: 1}, kitap: {plus: 8, minus: 2}, ödev: {plus: 2, minus: 0}, davranış: { minus: 1} } }
         ];
 
-  
         const studentsContainer = document.getElementById('students-container');
         const searchInput = document.getElementById('search');
-
 
         document.addEventListener('DOMContentLoaded', () => {
             renderStudents(students);
         });
-
 
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
@@ -317,9 +460,10 @@
                 return;
             }
 
-            studentsToRender.forEach(student => {
+            studentsToRender.forEach((student, index) => {
                 const studentCard = document.createElement('div');
                 studentCard.className = 'student-card';
+                studentCard.style.animationDelay = `${index * 0.1}s`;
 
                 studentCard.innerHTML = `
                     <div class="student-name">${student.name}</div>
@@ -332,17 +476,32 @@
             });
         }
 
-
         function renderStudentItems(student) {
             let itemsHTML = '';
+            const icons = {
+                defter: 'fa-book',
+                kitap: 'fa-book-open',
+                ödev: 'fa-file-alt',
+                davranış: 'fa-user-check'
+            };
             
             for (const [itemName, counts] of Object.entries(student.items)) {
+                const iconClass = icons[itemName] || 'fa-circle';
+                let countClass = '';
+                
+                if (itemName === 'davranış') {
+                    countClass = 'behavior-count';
+                }
+                
                 itemsHTML += `
                     <div class="item-row">
-                        <div class="item-name">${capitalizeFirstLetter(itemName)}</div>
+                        <div class="item-name">
+                            <i class="fas ${iconClass}"></i>
+                            ${capitalizeFirstLetter(itemName)}
+                        </div>
                         <div class="item-count">
-                            <span class="plus-count">${counts.plus}+</span>
-                            <span class="minus-count">${counts.minus}-</span>
+                            <span class="count-badge plus-count">${counts.plus}+</span>
+                            <span class="count-badge ${countClass || 'minus-count'}">${counts.minus}-</span>
                         </div>
                     </div>
                 `;
@@ -357,7 +516,7 @@
 
         window.students = students;
 
-         (function() {
+        (function() {
             emailjs.init("YoC-OJisQeBBR8zRE");
 
             document.getElementById('contactForm').addEventListener('submit', function(event) {
@@ -392,12 +551,10 @@
         })();
 
         document.getElementById("contactForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    alert("Mesajınız gönderildi! (Demo)");
-    this.reset(); // Formu temizler
-});
-
+            e.preventDefault();
+            alert("Mesajınız gönderildi! (Demo)");
+            this.reset();
+        });
     </script>
-  
 </body>
 </html>
